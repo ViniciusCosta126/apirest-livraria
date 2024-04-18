@@ -1,9 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
-from livraria_api import urls as livraria_urls
+from rest_framework import routers
+from livraria_api.views import CategoriaViewSet, AutorViewSet, LivroViewSet
+router = routers.DefaultRouter()
+
+router.register('categorias', CategoriaViewSet)
+router.register('autores', AutorViewSet)
+router.register('livros', LivroViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('livraria/', include(livraria_urls))
+    path('api/', include(router.urls))
 ]
