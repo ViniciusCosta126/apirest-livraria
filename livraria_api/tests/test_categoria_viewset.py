@@ -1,11 +1,17 @@
-from django.urls import reverse
-from rest_framework import status
 from rest_framework.test import APITestCase
 from ..models import Categoria
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from django.urls import reverse
+from rest_framework import status
 
 
 class CategoriaViewSetTest(APITestCase):
     def setUp(self):
+        self.user = User.objects.create(
+            username="testeuser", password="testepassword")
+        self.token = Token.objects.create(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         self.url_list = reverse('categoria-list')
 
     def test_listar_todas_as_categorias(self):
